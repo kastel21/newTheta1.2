@@ -126,8 +126,9 @@ public class Model implements Initializable {
     		//rs.next();
     		while (rs.next()) {
                     if(rs.getInt(2)== 1){
+                        TreeItem ti = new TreeItem<>(rs.getString(1)+"b",new ImageView(folder));
                         
-                        lst.add(new TreeItem<>(rs.getString(1)+"b",new ImageView(folder)));
+                        lst.add(ti);
                         
                     }else{
                        
