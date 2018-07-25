@@ -20,7 +20,7 @@ public class MySQLConnection {
         
     String username="root";
     String password ="ratarata";
-    String temp = "jdbc:mysql://127.0.0.1:3306/mainDB";
+    String temp = "jdbc:mysql://10.0.100.190:3306/mainDB";
     
     try{
 
