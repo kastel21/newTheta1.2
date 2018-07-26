@@ -18,7 +18,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.*;
@@ -37,7 +39,10 @@ public class WelcomeController implements Initializable{
     private TreeView <String> treeView ;
     @FXML
     private Tab mainTab;
-    @FXML private TabPane tabPane;
+    @FXML public TabPane tabPane;
+    
+    
+    
     
     private TreeItem<String> root;
     private static Model model = new Model();
@@ -46,13 +51,19 @@ public class WelcomeController implements Initializable{
     private List<List<TreeItem<String>>> lst = new LinkedList<>();
     //Image icon = new Image(getClass().getResourceAsStream("C:\\Users\\alpha\\Documents\\NetbeansProjects\\newTheta\\src\\newtheta\\img\\folder.png"));
     @FXML
-    private MenuBar menuBar;
+    public MenuBar menuBar;
+    
+    private int btnClick =0;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
        root = new TreeItem<>("Main");
        mainTab.setClosable(false);
        root.setExpanded(true);
+       
+       ImageView iv = new ImageView(model.folder);
+       iv.setId("mainb");
+       root.setGraphic(iv);
        
        
        
@@ -108,7 +119,15 @@ public class WelcomeController implements Initializable{
         
         
         for (TreeItem<String> i : lst){
-            flowPane.getChildren().add(btnListener(new Button(i.getValue())));
+            
+            String bName = i.getGraphic().getId();
+            
+            Button btn = new Button(bName.substring(0, bName.length()-1));
+            btn.setUserData(bName);
+            //btn.setAlignment(Pos.BOTTOM_CENTER);
+            btn.setContentDisplay(ContentDisplay.TOP);
+            
+            flowPane.getChildren().add(btnListener(btn));
         
         }
         
@@ -119,11 +138,16 @@ public class WelcomeController implements Initializable{
     private Button btnListener(Button btn){
         btn.setEffect(new DropShadow());
         btn.setId("button");
-        String bName = btn.getText();
+        String bName =(String) btn.getUserData();
+        ImageView file = new ImageView(model.file);
+        ImageView folder = new ImageView(model.folder);
+        
+        
+        
         if(bName.endsWith("l"))
-            btn.setGraphic(new ImageView(model.file));
+            btn.setGraphic(file);
         else
-            btn.setGraphic(new ImageView(model.folder));
+            btn.setGraphic(folder);
         
         
         btn.setWrapText(true);
@@ -134,23 +158,14 @@ public class WelcomeController implements Initializable{
         
             
         
-        btn.setOnAction((ActionEvent event) -> {
+        btn.setOnAction( e -> {
             if(bName.endsWith("l")){
                 System.out.println("leaf clicked");
-                
-                
-                
-                
                 makeTab(bName);
-                
-                
-
             }else
-                try {
-                    btnClick(btn.getText());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+               
+                 btnClick(bName);
+               
         });
         
         return btn;
@@ -161,24 +176,29 @@ public class WelcomeController implements Initializable{
     
         TreeItem<String> item = treeView.getSelectionModel().getSelectedItem();
         tabPane.getSelectionModel().select(mainTab);
-        
+         
         item.setExpanded(true);
         
-        if(item != null){
-            String name = item.getValue();
+        
+        String name = item.getGraphic().getId();
 
-                if(name.endsWith("l")){
-                    makeTab(name);
-                }else
-                    try {
-                        createChildren(item);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());                    }
-            btnClick++;
+        if(name.endsWith("l")){
+            makeTab(name);
+        }else
+            try {
+                createChildren(item);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());                    }
+        btnClick++;
 
-        }
+        
     }
-    private int btnClick =0;
+    
+    
+    
+    
+    
+    
     public void btnClick(String btn){
         
         TreeItem<String> item = new TreeItem<>(btn);
@@ -193,7 +213,7 @@ public class WelcomeController implements Initializable{
             for (TreeItem<String> i : root.getChildren()){
             
             System.out.println(i.getValue());
-            if(i.getValue().equals(btn)){
+            if(i.getGraphic().getId().equals(btn)){
                 
                 i.getParent().setExpanded(true);
                 createChildren(i);
@@ -202,7 +222,7 @@ public class WelcomeController implements Initializable{
             }
         }}else
             for (TreeItem<String> i : current.getChildren()){
-                if(i.getValue().equals(btn)){
+                if(i.getGraphic().getId().equals(btn)){
 
                     i.getParent().setExpanded(true);
                     createChildren(i);
@@ -233,29 +253,117 @@ public class WelcomeController implements Initializable{
    private void makeTab(String bName){
    
        bName = bName.substring(0,bName.length()-1);
-       if(bName.contains(" "))
-           bName= bName.replace(" ","_");
+       
        Tab tab = new Tab(bName);
        
-       
+       if(bName.contains(" "))
+           bName = bName.replace(" ","_");
                 
        tab.setContent(new Text(bName));
-       
-       try{
-       
-       SwingNode sn = new SwingNode();
-       RecievingServices rs = new RecievingServices();
-       sn.setContent(rs.getComps());
-       tab.setContent(sn);
-       tabPane.getTabs().add(tab);
-       
-       tabPane.getSelectionModel().select(tab);
        tab.setClosable(true);
+       try{
+           
+           Node n   = (Node) FXMLLoader.load(getClass().getResource("/fxml/"+bName+".fxml"));
+           n.autosize();
+           
+            tab.setContent(n);
+            
+            tabPane.getTabs().add(tab);
+            onOpen(bName);
+            tab.setOnClosed(e -> onClose(tab));
+            tabPane.getSelectionModel().select(tab);
+            
        
        }catch(Exception e){
            System.out.println(e.getMessage());
+           e.printStackTrace();
        }
 
    }
+   
+   private void onClose(Tab tab){
+   
+       if(tab.getText().equals("Corrections")){
+          new CorrectionsController().onTabClose();
+       }
+   
+   
+   }
+
+    private void onOpen(String bName) {
+        if (bName.equalsIgnoreCase("Corrections")){
+            CorrectionsController cc = new CorrectionsController();
+            for(Menu m : cc.menus()){
+                menuBar.getMenus().add(addList(m));
+                
+            }
+
+        }
+            
+        
+        
+    }
+    
+    public TabPane getTabs(){
+        return tabPane;
+    
+    }
+    
+    private Menu addList(Menu menu){
+        menu.setOnAction(e -> focusTab(menu.getId()));
+        for(MenuItem i : menu.getItems()){
+            i = actOn(i);
+        
+        }
+        
+        return menu;
+    }
+    
+    
+    private static MenuItem actOn(MenuItem item){
+    
+        
+        item.setOnAction(e -> {
+          
+              if(item.getText().equals("Read From Scanner File")){
+                  System.out.println("com.swantech.stocktakev2.CorrectionsController.actOn() read from scanner file");
+              }else if(item.getText().equals("Read From Scanner")){
+                  System.out.println("com.swantech.stocktakev2.CorrectionsController.actOn() read from scanner ");
+
+              }else if(item.getText().equals("Print And Save")){
+                  System.out.println("com.swantech.stocktakev2.CorrectionsController.actOn() print and save");
+
+              
+              }else if(item.getText().equals("Save")){
+                    System.out.println("com.swantech.stocktakev2.CorrectionsController.actOn() save");
+
+              
+              }else if(item.getText().equals("Cancel")){
+                  System.out.println("com.swantech.stocktakev2.CorrectionsController.actOn() cancel");
+              
+              }
+          
+          
+          });
+        
+        
+
+          return item;
+
+    }
+    
+    private void focusTab(String name){
+    
+        for(Tab tab : tabPane.getTabs()){
+            System.out.println(tab.getText());
+            if(tab.getText().equalsIgnoreCase(name)){
+                tabPane.getSelectionModel().select(tab);
+                //thisTab = tab;
+                break;
+            }
+        
+        }
+    }
+   
      
 }
