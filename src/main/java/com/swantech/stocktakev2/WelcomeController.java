@@ -272,16 +272,14 @@ public class WelcomeController implements Initializable{
             
             tabPane.getTabs().add(tab);
             onOpen(bName);
-            tab.setOnCloseRequest( e -> {
-                //e.consume();
-                
-                
-                menuBar.getMenus().removeIf(k -> tab.getText().equalsIgnoreCase(k.getId()));
-  
-            });
-            
             tab.setClosable(true);
+            tab.setOnCloseRequest(k -> {
             
+            
+                menuBar.getMenus().removeIf(kas -> tab.getText().equalsIgnoreCase(kas.getId()));
+            
+            
+            });
             tabPane.getSelectionModel().select(tab);
             System.out.println("  "+tab.isClosable());
        
@@ -292,12 +290,23 @@ public class WelcomeController implements Initializable{
 
    }
    
-
+   private void onClose(Tab tab){
+   
+       if(tab.getText().equals("Corrections")){
+          CorrectionsController cc = new CorrectionsController();
+            for(Menu m : cc.menus()){
+                System.out.println(" "+m.toString());
+                menuBar.getMenus().remove(m);
+                
+            }
+       }
+   
+   
+   }
 
     private void onOpen(String bName) {
         if (bName.equalsIgnoreCase("Corrections")){
             CorrectionsController cc = new CorrectionsController();
-            
             for(Menu m : cc.menus()){
                 menuBar.getMenus().add(addList(m));
                 
