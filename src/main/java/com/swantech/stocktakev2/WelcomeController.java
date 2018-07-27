@@ -254,55 +254,43 @@ public class WelcomeController implements Initializable{
    private void makeTab(String bName){
    
        bName = bName.substring(0,bName.length()-1);
+       if(!isAlive(bName)){
+          Tab tab = new Tab(bName);
        
-       Tab tab = new Tab(bName);
-       
-       if(bName.contains(" "))
-           bName = bName.replace(" ","_");
-                
-       //tab.setContent(new Text(bName));
-       
-       
-       try{
-           
-           Node n   = (Node) FXMLLoader.load(getClass().getResource("/fxml/"+bName+".fxml"));
-           
-           
-            tab.setContent(n);
-            
-            tabPane.getTabs().add(tab);
-            onOpen(bName);
-            tab.setClosable(true);
-            tab.setOnCloseRequest(k -> {
-            
-            
-                menuBar.getMenus().removeIf(kas -> tab.getText().equalsIgnoreCase(kas.getId()));
-            
-            
-            });
-            tabPane.getSelectionModel().select(tab);
-            System.out.println("  "+tab.isClosable());
-       
-       }catch(Exception e){
-           System.out.println(e.getMessage());
-           e.printStackTrace();
-       }
+            if(bName.contains(" "))
+                bName = bName.replace(" ","_");
 
-   }
-   
-   private void onClose(Tab tab){
-   
-       if(tab.getText().equals("Corrections")){
-          CorrectionsController cc = new CorrectionsController();
-            for(Menu m : cc.menus()){
-                System.out.println(" "+m.toString());
-                menuBar.getMenus().remove(m);
-                
+            try{
+
+                Node n   = (Node) FXMLLoader.load(getClass().getResource("/fxml/"+bName+".fxml"));
+
+
+                 tab.setContent(n);
+
+                 tabPane.getTabs().add(tab);
+                 onOpen(bName);
+                 tab.setClosable(true);
+                 tab.setOnCloseRequest(k -> {
+
+                     menuBar.getMenus().removeIf(kas -> tab.getText().equalsIgnoreCase(kas.getId()));
+
+                 });
+                 tabPane.getSelectionModel().select(tab);
+                 System.out.println("  "+tab.isClosable());
+
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
+       }else{
+           focusTab(bName);
+       
+       
        }
-   
-   
+       
    }
+   
+
 
     private void onOpen(String bName) {
         if (bName.equalsIgnoreCase("Corrections")){
@@ -317,12 +305,7 @@ public class WelcomeController implements Initializable{
         
         
     }
-    
-    public TabPane getTabs(){
-        return tabPane;
-    
-    }
-    
+
     private Menu addList(Menu menu){
         menu.setOnAction(e -> focusTab(menu.getId()));
         for(MenuItem i : menu.getItems()){
@@ -377,6 +360,19 @@ public class WelcomeController implements Initializable{
             }
         
         }
+    }
+
+    private boolean isAlive(String bName) {
+        
+        boolean value = false;
+        
+        for(Tab m : tabPane.getTabs())
+            if(m.getText().equalsIgnoreCase(bName)){
+                System.out.println(m.getText()+" .isAlive()");
+                value = true;
+                break;
+            }
+        return value;
     }
    
      

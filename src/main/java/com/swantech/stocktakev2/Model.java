@@ -218,8 +218,5 @@ public class Model
   
 
 
-  public TabPane getTabPane()
-  {
-    return new WelcomeController().getTabs();
-  }
+
 }
