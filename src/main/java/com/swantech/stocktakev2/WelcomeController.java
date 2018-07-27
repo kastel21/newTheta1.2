@@ -40,7 +40,7 @@ public class WelcomeController implements Initializable{
     @FXML
     private Tab mainTab;
     @FXML public TabPane tabPane;
-    
+    @FXML public Menu helpMenu;
     
     
     
@@ -293,12 +293,21 @@ public class WelcomeController implements Initializable{
 
 
     private void onOpen(String bName) {
+        //dynamically deal with all this static string 
+        //load all the classes in an array or a list and override to toString in each class so ast to use 
+        //that to compare and enable dynamic
+        menuBar.getMenus().remove(helpMenu);
         if (bName.equalsIgnoreCase("Corrections")){
             CorrectionsController cc = new CorrectionsController();
             for(Menu m : cc.menus()){
                 menuBar.getMenus().add(addList(m));
                 
+                
+                
             }
+            
+            menuBar.getMenus().add(helpMenu);
+            
 
         }
             
