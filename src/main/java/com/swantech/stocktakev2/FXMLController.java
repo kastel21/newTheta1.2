@@ -3,23 +3,20 @@ package com.swantech.stocktakev2;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
-public class FXMLController implements Initializable {
-    
-    @FXML
-    private Label label;
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+public class FXMLController implements javafx.fxml.Initializable
+{
+  @javafx.fxml.FXML
+  private javafx.scene.control.Label label;
+  
+  public FXMLController() {}
+  
+  @javafx.fxml.FXML
+  private void handleButtonAction(ActionEvent event)
+  {
+    System.out.println("You clicked me!");
+    label.setText("Hello World!");
+  }
+  
+  public void initialize(URL url, ResourceBundle rb) {}
 }

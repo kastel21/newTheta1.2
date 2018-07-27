@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="aPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.swantech.stocktakev2.CorrectionsController">
+   <children>
+      <TableView layoutX="28.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="File No" />
+          <TableColumn prefWidth="75.0" text="Location" />
+            <TableColumn prefWidth="195.0" text="Description" />
+            <TableColumn prefWidth="153.0" text="Barcode" />
+            <TableColumn minWidth="0.0" prefWidth="118.0" text="EAN Code" />
+            <TableColumn prefWidth="125.0" text="Prices" />
+            <TableColumn prefWidth="108.0" text="Count" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
