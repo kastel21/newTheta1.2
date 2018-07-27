@@ -1,4 +1,4 @@
-package fxml;
+package com.swantech.stocktakev2;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;

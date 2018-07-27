@@ -42,7 +42,26 @@ public class WelcomeController implements Initializable{
     @FXML public TabPane tabPane;
     @FXML public Menu helpMenu;
     
+    private static List<Kastel> classList = new LinkedList<>();
     
+    static {
+    
+        classList.add(new CorrectionsController());
+        classList.add(new DetailedReportController());
+        classList.add(new CountsController());
+        classList.add(new EnquiryController());
+        classList.add(new FirstCountController());
+        classList.add(new NewStocktakeController());
+        classList.add(new CorrectionsController());
+        classList.add(new OverviewEnquiryController());
+        
+        classList.add(new ReportController());
+        classList.add(new StockOnHandByDeptController());
+        //classList.add(new EnquiryController());
+        //classList.add(new EnquiryController());
+    
+    
+    }
     
     private TreeItem<String> root;
     private static Model model = new Model();
@@ -262,7 +281,7 @@ public class WelcomeController implements Initializable{
 
             try{
 
-                Node n   = (Node) FXMLLoader.load(getClass().getResource("/fxml/"+bName+".fxml"));
+                Node n = (Node) FXMLLoader.load(getClass().getResource("/fxml/"+bName+".fxml"));
 
 
                  tab.setContent(n);
@@ -297,24 +316,22 @@ public class WelcomeController implements Initializable{
         //load all the classes in an array or a list and override to toString in each class so ast to use 
         //that to compare and enable dynamic
         menuBar.getMenus().remove(helpMenu);
-        if (bName.equalsIgnoreCase("Corrections")){
-            CorrectionsController cc = new CorrectionsController();
-            for(Menu m : cc.menus()){
-                menuBar.getMenus().add(addList(m));
+        
+        for(Kastel object : classList){
+                if (bName.equalsIgnoreCase(object.toString())){
+                    for(Menu m : object.menus()){
+                        menuBar.getMenus().add(addList(m));   
+                    }
+                    
+                    break;
+                }
                 
-                
-                
-            }
-            
-            menuBar.getMenus().add(helpMenu);
-            
-
         }
-            
-        
-        
+        menuBar.getMenus().add(helpMenu);
+ 
     }
 
+        
     private Menu addList(Menu menu){
         menu.setOnAction(e -> focusTab(menu.getId()));
         for(MenuItem i : menu.getItems()){

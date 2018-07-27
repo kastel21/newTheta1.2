@@ -31,9 +31,8 @@ import javafx.scene.layout.AnchorPane;
 
 
 
-public class CorrectionsController
-  implements Initializable
-{
+public class CorrectionsController extends Kastel implements Initializable {
+
   @FXML
   private AnchorPane aPane;
   private Model model;
@@ -45,21 +44,6 @@ public class CorrectionsController
   public List<Menu> menus()
   {
     List<Menu> lst = new LinkedList();
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     Menu menu0 = new Menu();
     menu0.setId("corrections");
@@ -108,10 +92,6 @@ public class CorrectionsController
     menu1.getItems().add(menuItem3);
     menu1.getItems().add(menuItem4);
     lst.add(menu0);
-    
-
-
-
 
     return lst;
   }
@@ -126,10 +106,12 @@ public class CorrectionsController
   
 
 
-
-
-  public void onTabClose()
-  {
-    if (menuBar.getMenus().removeAll(menus())) {}
+  public String toString(){
+  
+      return "Corrections";
+  
+  
   }
+
+ 
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.swantech.stocktakev2.FirstCountController">
    <children>
-      <TableView layoutX="28.0" layoutY="34.0" prefHeight="616.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+      <TableView layoutX="28.0" prefHeight="650.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn prefWidth="75.0" text="File No" />
           <TableColumn prefWidth="75.0" text="Location" />
@@ -20,32 +17,5 @@
             <TableColumn prefWidth="120.0" text="Count" />
         </columns>
       </TableView>
-      <MenuBar layoutY="2.0" prefHeight="26.0" prefWidth="1000.0">
-        <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Scanner">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Read From Scanner File" />
-                  <MenuItem mnemonicParsing="false" text="Read From Scanner" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Save">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Print And Save" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Cancel" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </children>
 </AnchorPane>
